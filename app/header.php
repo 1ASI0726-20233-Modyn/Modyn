@@ -22,6 +22,8 @@
     <a href="index.php">Inicio</a>
     <!-- Link a vista de tablas -->
     <a href="tables.php">Tablas</a>
+    <!-- Link al catálogo de productos -->
+    <a href="features/searcher.php">Catálogo</a>
 </nav>
 
 <hr>

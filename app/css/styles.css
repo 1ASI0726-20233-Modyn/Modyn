@@ -1,51 +1,74 @@
+/* ============================================ */
+/* ESTILOS GENERALES DEL CUERPO */
+/* ============================================ */
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
 }
 
+/* ============================================ */
+/* ESTILOS DEL TÍTULO PRINCIPAL */
+/* ============================================ */
 h1 {
     text-align: center;
 }
 
+/* ============================================ */
+/* ESTILOS DE LA NAVEGACIÓN */
+/* ============================================ */
 nav {
     text-align: center;
     margin-bottom: 20px;
 }
 
+/* Links de navegación */
 nav a {
     margin: 0 15px;
     text-decoration: none;
     color: #333;
 }
 
+/* Efecto hover en links de navegación */
 nav a:hover {
     text-decoration: underline;
 }
 
+/* ============================================ */
+/* ESTILOS DE SEPARADORES */
+/* ============================================ */
 hr {
     margin: 10px 0;
 }
 
+/* ============================================ */
+/* ESTILOS DE TABLAS */
+/* ============================================ */
 table {
     border-collapse: collapse;
     width: 100%;
     margin-top: 15px;
 }
 
+/* Celdas de tabla */
 th, td {
     border: 1px solid #ccc;
     padding: 8px;
     text-align: left;
 }
 
+/* Encabezados de tabla */
 th {
     background: #f0f0f0;
 }
 
+/* Filas alternas de tabla */
 tr:nth-child(even) {
     background: #f9f9f9;
 }
 
+/* ============================================ */
+/* ESTILOS DE SUBTÍTULOS */
+/* ============================================ */
 h2 {
     color: #333;
 }

@@ -82,18 +82,28 @@ if (!$res) {
 
         // Mostrar filas de datos
         while ($row = mysqli_fetch_assoc($res)) {
-            echo "tr>";
+            echo "<tr>"; // Error tipográfico corregido aquí
             foreach ($row as $value) {
                 echo "<td>" . htmlspecialchars($value ?? '') . "</td>";
             }
 
             $idValue = $row[$primaryKeyName];
 
-            // Enlace de borrado corregido a la carpeta /infrastructure
             echo "<td style='text-align: center;'>";
+
+            // =========================================================
+            // TU CONEXIÓN: Botón "Editar" exclusivo para Products
+            // =========================================================
+            if ($tabla === 'Products') {
+                echo "<a href='infrastructure/update.php?tabla=$tabla&id=$idValue'
+                         style='color: #0ea5e9; font-weight: bold; text-decoration: none; background: #e0f2fe; padding: 5px 10px; border-radius: 10px; margin-right: 8px;'>Editar</a>";
+            }
+
+            // Enlace de borrado original de tus compañeros
             echo "<a href='infrastructure/delete.php?tabla=$tabla&id=$idValue'
                      onclick='return confirm(\"¿Estás seguro de que deseas eliminar este registro?\")'
                      style='color: #e11d48; font-weight: bold; text-decoration: none; background: #fff1f2; padding: 5px 10px; border-radius: 10px;'>Borrar</a>";
+
             echo "</td>";
             echo "</tr>";
         }

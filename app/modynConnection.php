@@ -6,7 +6,7 @@
 // Configuración de conexión
 $host = "158.23.178.49";      // Servidor MySQL
 $user = "admin";               // Usuario de BD
-$pass = "lo subes tu pe mano";            // Contraseña de BD
+$pass = "1@!MySQL2026Secure";  // Contraseña de BD
 $db   = "Modyn_DB";            // Nombre de la BD
 
 // Conectar a la BD

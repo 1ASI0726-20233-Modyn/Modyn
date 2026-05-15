@@ -1,74 +1,197 @@
-/* ============================================ */
-/* ESTILOS GENERALES DEL CUERPO */
-/* ============================================ */
+:root {
+    --primary: #f8bbd0; /* Rosa pastel suave */
+    --primary-dark: #f06292; /* Rosa más intenso para contrastes */
+    --accent: #f48fb1;
+    --bg: #fff5f8; /* Fondo rosado casi blanco */
+    --text: #4a4a4a;
+    --white: #ffffff;
+    --shadow: 0 4px 15px rgba(248, 187, 208, 0.4);
+    --border: #fce4ec;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
 }
 
-/* ============================================ */
-/* ESTILOS DEL TÍTULO PRINCIPAL */
-/* ============================================ */
-h1 {
+/* Header con Logo */
+header {
+    background: var(--white);
+    padding: 20px;
     text-align: center;
+    box-shadow: var(--shadow);
+    border-bottom: 2px solid var(--border);
 }
 
-/* ============================================ */
-/* ESTILOS DE LA NAVEGACIÓN */
-/* ============================================ */
+.logo-container img {
+    max-height: 80px; /* Ajusta según prefieras el tamaño del logo */
+    transition: transform 0.3s;
+}
+
+.logo-container img:hover {
+    transform: scale(1.05);
+}
+
+/* Navegación */
 nav {
-    text-align: center;
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px;
+    background: var(--white);
 }
 
-/* Links de navegación */
 nav a {
-    margin: 0 15px;
     text-decoration: none;
-    color: #333;
+    color: var(--primary-dark);
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--primary);
 }
 
-/* Efecto hover en links de navegación */
 nav a:hover {
-    text-decoration: underline;
+    background: var(--primary);
+    color: var(--white);
 }
 
-/* ============================================ */
-/* ESTILOS DE SEPARADORES */
-/* ============================================ */
-hr {
-    margin: 10px 0;
-}
-
-/* ============================================ */
-/* ESTILOS DE TABLAS */
-/* ============================================ */
+/* Tablas Pastel */
 table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-top: 15px;
+    width: 90%;
+    margin: 30px auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--white);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
 }
 
-/* Celdas de tabla */
-th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-}
-
-/* Encabezados de tabla */
 th {
-    background: #f0f0f0;
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 15px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
 }
 
-/* Filas alternas de tabla */
-tr:nth-child(even) {
-    background: #f9f5f1;
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border);
 }
 
-/* ============================================ */
-/* ESTILOS DE SUBTÍTULOS */
-/* ============================================ */
-h2 {
-    color: #333;
+tr:hover {
+    background-color: #fffbfd;
+}
+
+/* Botones de acción */
+.btn-insert {
+    background: var(--primary-dark);
+    color: white !important;
+    padding: 12px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(240, 98, 146, 0.3);
+}
+:root {
+    --primary-pink: #f8bbd0; /* Rosa pastel suave */
+    --dark-pink: #f06292;    /* Rosa fuerte para acentos */
+    --light-pink: #fff5f8;   /* Fondo muy tenue */
+    --white: #ffffff;
+    --shadow: 0 4px 12px rgba(248, 187, 208, 0.2);
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--light-pink);
+    color: #4a4a4a;
+    margin: 0;
+}
+
+header {
+    background: var(--white);
+    padding: 15px 40px;
+    box-shadow: var(--shadow);
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    gap: 60px; /* Espacio entre el nombre y el menú */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Estilo para el nombre MODYN */
+.brand-name a {
+    text-decoration: none;
+    color: var(--dark-pink);
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+/* Menú de navegación */
+nav {
+    display: flex;
+    gap: 15px;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--dark-pink);
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    background-color: var(--primary-pink);
+    color: var(--white);
+}
+
+/* Estilo para las tablas */
+table {
+    width: 90%;
+    margin: 40px auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--white);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+th {
+    background-color: var(--primary-pink);
+    color: var(--white);
+    padding: 15px;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    border: none;
+}
+
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #fce4ec;
+}
+
+tr:hover {
+    background-color: #fffbfd;
+}
+
+/* Botones de acción */
+a[style*="color: #d9534f"] {
+    background: #ffe4e6;
+    color: #e11d48 !important;
+    padding: 5px 12px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-size: 0.85rem;
 }

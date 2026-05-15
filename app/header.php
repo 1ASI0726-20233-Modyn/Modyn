@@ -1,29 +1,25 @@
-<!-- ============================================ -->
-<!-- HEADER HTML COMÚN PARA TODAS LAS PÁGINAS -->
-<!-- ============================================ -->
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modyn Database</title>
-
-    <!-- Cargar estilos CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-<!-- Título principal -->
-<h1>MODYN</h1>
+<header>
+    <div class="header-container">
+        <div class="brand-name">
+            <a href="index.php">MODYN</a>
+        </div>
 
-<!-- Navegación principal -->
-<nav>
-    <!-- Link a inicio -->
-    <a href="index.php">Inicio</a>
-    <!-- Link a vista de tablas -->
-    <a href="tables.php">Tablas</a>
-    <!-- Link al catálogo de productos -->
-    <a href="features/searcher.php">Catálogo</a>
-</nav>
-
-<hr>
+        <nav>
+            <a href="index.php">Inicio</a>
+            <a href="tables.php">Tablas</a>
+            <a href="features/searcher.php">Catálogo</a>
+        </nav>
+    </div>
+</header>

@@ -24,7 +24,7 @@ Edita el archivo `app/modynConnection.php`:
 
 ```php
 <?php
-$host = "158.23.145.99";      // Tu servidor MySQL
+$host = "158.23.178.49";      // Tu servidor MySQL
 $user = "admin";               // Tu usuario
 $pass = "se pone a mano";            // Tu contraseña
 $db   = "Modyn_DB";            // Tu base de datos

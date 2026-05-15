@@ -4,9 +4,9 @@
 // ============================================
 
 // Configuración de conexión
-$host = "158.23.145.99";      // Servidor MySQL
+$host = "158.23.178.49";      // Servidor MySQL
 $user = "admin";               // Usuario de BD
-$pass = "Admin123";            // Contraseña de BD
+$pass = "lo subes tu pe mano";            // Contraseña de BD
 $db   = "Modyn_DB";            // Nombre de la BD
 
 // Conectar a la BD

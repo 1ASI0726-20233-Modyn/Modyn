@@ -109,6 +109,34 @@ if (!isset($_GET['tabla'])) {
 $tabla = mysqli_real_escape_string($link, $_GET['tabla']);
 $res = mysqli_query($link, "DESCRIBE $tabla");
 
+// Obtener información de claves foráneas
+$fkInfo = [];
+$resFK = mysqli_query($link, "SELECT CONSTRAINT_NAME, COLUMN_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME = '$tabla' AND REFERENCED_TABLE_NAME IS NOT NULL");
+while ($fkRow = mysqli_fetch_assoc($resFK)) {
+    $fkInfo[$fkRow['COLUMN_NAME']] = [
+        'tabla_ref' => $fkRow['REFERENCED_TABLE_NAME'],
+        'columna_ref' => $fkRow['REFERENCED_COLUMN_NAME']
+    ];
+}
+
+// Obtener el ID principal (PRIMARY KEY)
+$resPK = mysqli_query($link, "DESCRIBE $tabla");
+$primaryKey = null;
+while ($pkRow = mysqli_fetch_assoc($resPK)) {
+    if (strpos($pkRow['Key'], 'PRI') !== false) {
+        $primaryKey = $pkRow['Field'];
+        break;
+    }
+}
+
+// Obtener el siguiente ID
+$nextId = 1;
+if ($primaryKey) {
+    $resMaxId = mysqli_query($link, "SELECT MAX($primaryKey) as maxId FROM $tabla");
+    $maxIdRow = mysqli_fetch_assoc($resMaxId);
+    $nextId = ($maxIdRow['maxId'] ?? 0) + 1;
+}
+
 if (!$res) {
     echo "<h2>Error</h2>";
     echo "<p>" . mysqli_error($link) . "</p>";
@@ -116,39 +144,56 @@ if (!$res) {
     echo "<h2>Insertar en: <strong>$tabla</strong></h2>";
     echo "<p><a href='insert.php'>← Cambiar tabla</a> | <a href='../tables.php?tabla=$tabla'>← Ver datos</a></p>";
 
+    // Mostrar el próximo ID que se generará
+    if ($primaryKey) {
+        echo "<div style='margin: 10px 0; padding: 10px; background: #e3f2fd; border-left: 4px solid #2196F3; border-radius: 4px;'>";
+        echo "<strong>Próximo ID:</strong> <span style='color: #2196F3; font-size: 18px;'>$nextId</span>";
+        echo "</div>";
+    }
+
     echo "<form method='POST'>";
     echo "<input type='hidden' name='tabla' value='$tabla'>";
 
     while ($row = mysqli_fetch_assoc($res)) {
         $campo = htmlspecialchars($row['Field']);
         $tipo = htmlspecialchars($row['Type']);
-        $nulo = $row['Null'] === 'YES' ? ' (opcional)' : ' (requerido)';
+
+        // Saltar campos PRIMARY KEY (se autogeneran)
+        if (strpos($row['Key'], 'PRI') !== false) {
+            continue;
+        }
 
         echo "<div style='margin: 10px 0; padding: 10px; background: #f9f9f9; border-left: 3px solid #2196F3; border-radius: 4px;'>";
         echo "<label for='$campo'><strong>$campo</strong></label><br>";
-        echo "<small style='color: #666;'>Tipo: $tipo $nulo</small><br>";
 
-        // Determinar el tipo de input según el tipo de dato
-        if (strpos($tipo, 'text') !== false) {
-            echo "<textarea name='$campo' id='$campo' style='width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px; font-family: Arial;' rows='4' placeholder='Escribe el contenido aquí...'></textarea>";
-        } elseif (strpos($tipo, 'varchar') !== false) {
-            $placeholder = "Ej: Nombre, descripción, etc.";
-            echo "<input type='text' name='$campo' id='$campo' style='width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px;' placeholder='$placeholder'>";
-        } elseif (strpos($tipo, 'int') !== false) {
-            // Validar si es PRIMARY KEY para advertir al usuario
-            $isPrimary = strpos($row['Key'], 'PRI') !== false ? ' (⚠ ID único, no debe repetirse)' : '';
-            echo "<input type='number' name='$campo' id='$campo' style='width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px;' placeholder='Ej: 1, 2, 3...'>";
-            if ($isPrimary) {
-                echo "<small style='color: #d32f2f;'>$isPrimary</small>";
+        // Verificar si es una clave foránea
+        if (isset($fkInfo[$campo])) {
+            $tablaRef = $fkInfo[$campo]['tabla_ref'];
+            $columnaRef = $fkInfo[$campo]['columna_ref'];
+            $resFK_valores = mysqli_query($link, "SELECT $columnaRef FROM $tablaRef ORDER BY $columnaRef ASC");
+
+            echo "<select name='$campo' id='$campo' style='width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px;' required>";
+            echo "<option value=''>-- Selecciona --</option>";
+
+            while ($fkVal = mysqli_fetch_assoc($resFK_valores)) {
+                echo "<option value='" . htmlspecialchars($fkVal[$columnaRef]) . "'>" . htmlspecialchars($fkVal[$columnaRef]) . "</option>";
             }
+
+            echo "</select>";
+        }
+        // Determinar el tipo de input según el tipo de dato
+        elseif (strpos($tipo, 'text') !== false) {
+            echo "<textarea name='$campo' id='$campo' style='width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px; font-family: Arial;' rows='4' placeholder='Ej: Descripción...'></textarea>";
+        } elseif (strpos($tipo, 'varchar') !== false) {
+            echo "<input type='text' name='$campo' id='$campo' style='width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px;' placeholder='Ej: Juan Pérez'>";
+        } elseif (strpos($tipo, 'int') !== false) {
+            echo "<input type='number' name='$campo' id='$campo' style='width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px;' placeholder='Ej: 5'>";
         } elseif (strpos($tipo, 'double') !== false || strpos($tipo, 'float') !== false) {
             echo "<input type='number' step='0.01' name='$campo' id='$campo' style='width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px;' placeholder='Ej: 99.99'>";
         } elseif (strpos($tipo, 'date') !== false && strpos($tipo, 'datetime') === false) {
             echo "<input type='date' name='$campo' id='$campo' style='width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px;'>";
-            echo "<small style='color: #999;'>Formato: YYYY-MM-DD (Ej: 2026-05-14)</small>";
         } elseif (strpos($tipo, 'datetime') !== false) {
             echo "<input type='datetime-local' name='$campo' id='$campo' style='width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px;'>";
-            echo "<small style='color: #999;'>Formato: YYYY-MM-DD HH:MM:SS (Ej: 2026-05-14 14:30:00)</small>";
         } else {
             echo "<input type='text' name='$campo' id='$campo' style='width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px;' placeholder='Ingresa un valor'>";
         }
